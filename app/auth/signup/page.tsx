@@ -2,59 +2,46 @@
 
 import Button from "@/app/components/elements/buttons/Button";
 import InputField from "@/app/features/auth/components/InputField";
+import { useSignupForm } from "@/app/features/auth/hooks/useSignupForm";
 import { signupFormSchema } from "@/app/features/lib/formSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { error } from "console";
+import Link from "next/link";
 import React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
-interface FormData {
-  username: string;
-  email: string;
-  password: string;
-}
-
 const Signup = () => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<FormData>({
-    resolver: zodResolver(signupFormSchema),
-    defaultValues: {
-      username: "",
-      email: "",
-      password: "",
-    },
-  });
-
-  const onSubmit: SubmitHandler<FormData> = (data: FormData) => {
-    console.log(data);
-  };
+  const { form, onSubmit } = useSignupForm();
 
   return (
     <div className="max-w-sm mx-auto my-14">
       <h2 className="text-center font-medium text-2xl mb-4">新規登録</h2>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={form.handleSubmit(onSubmit)}>
         <InputField
           label="ユーザー名"
           name="username"
-          register={register}
+          register={form.register}
           type="text"
         />
-        <p className="text-red-500">{errors.username?.message}</p>
+        <p className="text-red-500">
+          {form.formState.errors.username?.message}
+        </p>
         <InputField
           label="メールアドレス"
           name="email"
-          register={register}
+          register={form.register}
           type="text"
         />
+        <p className="text-red-500">{form.formState.errors.email?.message}</p>
         <InputField
           label="パスワード"
           name="password"
-          register={register}
+          register={form.register}
           type="password"
         />
+        <p className="text-red-500">
+          {form.formState.errors.password?.message}
+        </p>
         <div className="mt-4">
           <Button
             colorClass="bg-blue-500 hover:bg-blue-700"
@@ -63,6 +50,10 @@ const Signup = () => {
           />
         </div>
       </form>
+
+      <Link href="/auth/login" className="mt-4 block text-center text-blue-400">
+        すでに登録済みの方はこちら
+      </Link>
     </div>
   );
 };
