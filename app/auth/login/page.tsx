@@ -7,11 +7,12 @@ import Link from "next/link";
 import React from "react";
 
 const Login = () => {
-  const { form, onSubmit } = useSignupForm();
+  const { form, onSubmit, error } = useSignupForm();
 
   return (
     <div className="max-w-sm mx-auto my-14">
       <h2 className="text-center font-medium text-2xl mb-4">ログイン</h2>
+      {error && <p className="text-red-500 text-center">{error}</p>}
       <form onSubmit={form.handleSubmit(onSubmit)}>
         <InputField
           label="メールアドレス"
@@ -37,7 +38,6 @@ const Login = () => {
           />
         </div>
       </form>
-
       <Link
         href="/auth/signup"
         className="mt-4 block text-center text-blue-400"
