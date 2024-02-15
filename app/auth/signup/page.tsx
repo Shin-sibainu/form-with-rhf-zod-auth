@@ -3,12 +3,8 @@
 import Button from "@/app/components/elements/buttons/Button";
 import InputField from "@/app/features/auth/components/InputField";
 import { useSignupForm } from "@/app/features/auth/hooks/useSignupForm";
-import { signupFormSchema } from "@/app/features/lib/formSchema";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { error } from "console";
 import Link from "next/link";
 import React from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
 
 const Signup = () => {
   const { form, onSubmit } = useSignupForm();
