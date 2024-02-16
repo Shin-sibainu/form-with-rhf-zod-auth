@@ -32,6 +32,9 @@ export const useSignupForm = () => {
       const { data, error: signUpError } = await supabase.auth.signUp({
         email,
         password,
+        // options: {
+        //   emailRedirectTo: `${window.location.origin}/welcome`,
+        // },
       });
 
       // console.log(data.user);
@@ -53,7 +56,7 @@ export const useSignupForm = () => {
       }
 
       setError("");
-      router.push("/auth/login");
+      router.push("/auth/email-confirm");
     } catch (err) {
       if (err instanceof Error) {
         console.log(err.message);

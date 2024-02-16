@@ -32,7 +32,7 @@ export const useLoginForm = () => {
 
       console.log(email, password);
 
-      console.log(signInError?.message);
+      // console.log(signInError?.message);
       if (signInError) {
         console.log(signInError.message);
         throw signInError;
