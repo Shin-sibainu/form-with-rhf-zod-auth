@@ -2,12 +2,12 @@
 
 import Button from "@/app/components/elements/buttons/Button";
 import InputField from "@/app/features/auth/components/InputField";
-import { useSignupForm } from "@/app/features/auth/hooks/useSignupForm";
+import { useLoginForm } from "@/app/features/auth/hooks/useLoginForm";
 import Link from "next/link";
 import React from "react";
 
 const Login = () => {
-  const { form, onSubmit, error } = useSignupForm();
+  const { form, onSubmit, error } = useLoginForm();
 
   return (
     <div className="max-w-sm mx-auto my-14">
