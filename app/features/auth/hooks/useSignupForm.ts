@@ -3,6 +3,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { signupFormSchema } from "../../lib/formSchema";
 import { supabase } from "../../lib/supabaseClient";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 interface FormData {
   username: string;
@@ -11,6 +12,7 @@ interface FormData {
 }
 
 export const useSignupForm = () => {
+  const router = useRouter();
   const [error, setError] = useState("");
 
   const form = useForm<FormData>({
@@ -32,17 +34,26 @@ export const useSignupForm = () => {
         password,
       });
 
-      console.log(data.user);
-      console.log(signUpError?.message);
+      // console.log(data.user);
       if (signUpError) throw signUpError;
 
       const { error: userError } = await supabase
         .from("User")
         .insert([{ id: data.user?.id, username, email }]);
 
-      if (userError) throw userError;
+      if (userError) {
+        if (
+          userError.message.includes(
+            "duplicate key value violates unique constraint"
+          )
+        ) {
+          setError("既に存在するユーザーです。");
+          return;
+        }
+      }
 
       setError("");
+      router.push("/auth/login");
     } catch (err) {
       if (err instanceof Error) {
         console.log(err.message);
